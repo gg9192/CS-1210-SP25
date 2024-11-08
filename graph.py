@@ -5,7 +5,9 @@ class Graph:
         self.weights = weights #maps f"{source}:{dest}" to the weight
 
 # I am making the case for 2 functions. One has weights and one does not. 
-# One is a CSV and one is not. 
+# One is a CSV and one is not. different format so hard to do one function
+# without doing some crazy hack. Just provide the correct one as the solution 
+# is the better approach IMHO
 def loadNetwork_txt():
     with open('soc-Epinions1.txt', 'r') as file:
         in_neighbors = {}
@@ -42,4 +44,11 @@ def loadNetwork_csv():
         res = Graph(in_neighbors, out_neighbors,weights) #create the graph and return it
         return res
 
-loadNetwork_csv()
+def getActiveNeighbors(graph:Graph, node: str, activeSet:set):
+    # I assume that you pass in an instance of my graph object
+    res = set()
+    in_edges = graph.in_neighbors.get(node, []) # get all the nodes that have an edge to this node
+    for node in in_edges: 
+        if node in activeSet: 
+            res.add(node)
+    return res
