@@ -1,9 +1,3 @@
-class Graph:
-    def __init__(self,in_n,out,weights={}):
-        self.in_neighbors = in_n
-        self.out_neighbors = out
-        self.weights = weights #maps f"{source}:{dest}" to the weight
-
 # I am making the case for 2 functions. One has weights and one does not. 
 # One is a CSV and one is not. different format so hard to do one function
 # without doing some crazy hack. Just provide the correct one as the solution 
@@ -22,7 +16,7 @@ def loadNetwork_txt():
                 out_l.append(dest)
                 out_neighbors[source] = out_l
                 #no weights on this graph!
-    res = Graph(in_neighbors, out_neighbors) #create the graph and return it
+    res = [in_neighbors, out_neighbors]
     return res
 
 def loadNetwork_csv():
@@ -41,13 +35,13 @@ def loadNetwork_csv():
             weight_str = f"{source}:{dest}" #note that this is directed from the specification. 
             #The same weight does not exist for f"{dest}:{source}"
             weights[weight_str] = weight
-        res = Graph(in_neighbors, out_neighbors,weights) #create the graph and return it
+        res = res = [in_neighbors, out_neighbors,weights] #create the graph and return it
         return res
 
-def getActiveNeighbors(graph:Graph, node: str, activeSet:set):
+def getActiveNeighbors(graph, node: str, activeSet:set):
     # I assume that you pass in an instance of my graph object
     res = set()
-    in_edges = graph.in_neighbors.get(node, []) # get all the nodes that have an edge to this node
+    in_edges = graph[0].get(node, []) # get all the nodes that have an edge to this node
     for node in in_edges: 
         if node in activeSet: 
             res.add(node)
